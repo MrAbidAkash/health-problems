@@ -1,0 +1,231 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+'use client'
+
+import { useSearchParams } from 'next/navigation'
+import { CheckCircle } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+// import { useEffect } from 'react'
+// import { getPayload } from '@/lib/payload'
+
+export default function BookingSuccess() {
+  const searchParams = useSearchParams()
+
+  const bookingID = searchParams.get('bookingId')
+
+  console.log('bookingID', bookingID)
+
+  const [bookingData, setBookingData] = useState<any>(null)
+
+  console.log('bookingData', bookingData)
+
+  const status = bookingData?.paymentStatus
+  // const trxID = bookingData?.trxID
+
+  useEffect(() => {
+    if (!bookingID) return
+    ;(async () => {
+      try {
+        const booking = await fetch(`/getBookingInfo?bookingID=${bookingID}`)
+        const bookingData = await booking.json()
+
+        setBookingData(bookingData)
+      } catch (error) {
+        console.log(error)
+      }
+    })()
+  }, [bookingID])
+
+  console.log('booking', bookingData)
+
+  const booked = true
+
+  const hasSentPurchaseEvent = useRef(false)
+
+  const sendPurchaseEvent = async () => {
+    const orderId = `booking_${bookingID}`
+
+    // Determine the final event name based on your logic
+
+    const purchaseType = booked ? 'booked' : 'standard'
+
+    // 1. BROWSER PIXEL EVENT - Use standard name 'Purchase'
+    if (typeof window !== 'undefined' && window.fbq) {
+      window.fbq('track', 'Purchase', {
+        // <-- Standard event name
+        value: bookingData?.amount,
+        currency: 'BDT',
+        content_ids: [bookingData.id || bookingData.pricingId],
+        content_type: 'product',
+        // Custom parameter to specify the type
+        purchase_type: purchaseType, // <-- Your custom detail here
+        // CRITICAL for deduplication
+        eventID: orderId,
+      })
+    }
+
+    // const serverEventName = booked ? 'Partial Purchase' : purchased ? 'Full Purchase' : 'Purchase' // Your custom logic for server
+
+    // Send data in the correct structure for your backend to process
+    const eventData = {
+      event_name: 'Purchase', // Use snake_case
+      event_id: orderId,
+      // Pass required web parameters. Your backend will hash 'phone'.
+      customer_info: {
+        name: bookingData?.customerInfo.name,
+        phone: bookingData?.customerInfo.phone,
+        address: bookingData?.customerInfo.address,
+      },
+      currency: 'BDT',
+      value: bookingData?.amount,
+      // due:,
+      // Facebook will read standard fields like 'content_ids' from custom_data
+      custom_data: {
+        purchase_type: purchaseType,
+        content_ids: [bookingData.id || bookingData.pricingId],
+        content_type: 'product',
+        // You can keep other fields; they may be ignored but won't break the call.
+        product_name: bookingData?.productInfo.label,
+        size: bookingData.size,
+        productPrice: bookingData?.productInfo.price,
+        // delivery_charge: DELIVERY_CHARGE,
+      },
+    }
+
+    console.log('eventData', eventData)
+
+    try {
+      const response = await fetch('/fb-conversion', {
+        // Ensure endpoint is correct
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(eventData), // Send the new structure
+      })
+      const result = await response.json()
+      console.log('Event sent:', result)
+    } catch (error) {
+      console.error('Failed to send event:', error)
+    }
+  }
+
+  useEffect(() => {
+    if (!bookingID) return
+    if (!bookingData) return
+
+    if (booked && !hasSentPurchaseEvent.current) {
+      sendPurchaseEvent()
+      hasSentPurchaseEvent.current = true
+    }
+  }, [bookingID, bookingData])
+
+  if (!bookingID || !bookingData || bookingData?.error) {
+    return (
+      <div className="min-h-[50vh] bg-gray-100 flex flex-col justify-center items-center px-3 py-6">
+        <h2 className="text-2xl font-semibold">invalid page</h2>
+        <button
+          onClick={() => (window.location.href = '/')}
+          className="bg-black text-white px-3 py-2 rounded-md mt-10 cursor-pointer"
+        >
+          Go Home
+        </button>
+      </div>
+    )
+  }
+
+  // Normally these should come from DB
+  const customer = bookingData?.customerInfo
+
+  const product = {
+    name: bookingData?.productInfo?.label,
+    qty: 1,
+    paid: 0,
+    price: bookingData?.amount,
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-100 flex justify-center px-3 py-6">
+      <div className="w-full min px-3 max-w-md bg-white rounded-xl shadow-md overflow-hidden">
+        {/* Header */}
+        <div className="bg-black text-white text-center py-8">
+          <div className="flex justify-center mb-3">
+            <CheckCircle size={56} className="text-green-400" />
+          </div>
+          <h1 className="text-2xl font-semibold">Booking Confirmed </h1>
+          <p className="text-sm text-gray-300 mt-1">
+            Thank you for choosing us — your booking has been confirmed
+          </p>
+        </div>
+
+        {/* Content */}
+        <div className="p-5 space-y-6">
+          {/* Customer Info */}
+          <section>
+            <h2 className="font-semibold text-lg border-l-4 border-yellow-400 pl-3 mb-3">
+              Customer Information
+            </h2>
+
+            <div className="text-sm text-gray-700 space-y-1">
+              <p>
+                <span className="font-medium">Name:</span> {customer?.name}
+              </p>
+              <p>
+                <span className="font-medium">Phone:</span> {customer?.phone}
+              </p>
+              <p>
+                <span className="font-medium">Address:</span> {customer?.address}
+              </p>
+            </div>
+          </section>
+
+          {/* Summary */}
+          <section>
+            <h2 className="font-semibold text-lg border-l-4 border-yellow-400 pl-3 mb-3">
+              Booking Summary
+            </h2>
+
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border border-gray-200">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="border px-2 py-1 text-left">#</th>
+                    <th className="border px-2 py-1 text-left">Product</th>
+                    <th className="border px-2 py-1 text-center">Qty</th>
+                    <th className="border px-2 py-1 text-right">Price (৳)</th>
+                    <th className="border px-2 py-1 text-right">Paid (৳)</th>
+                    {/* <th className="border px-2 py-1 text-right">Due (৳)</th> */}
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="border px-2 py-2">1</td>
+                    <td className="border px-2 py-2">{product?.name}</td>
+                    <td className="border px-2 py-2 text-center">{product?.qty}</td>
+                    <td className="border px-2 py-2 text-right">{product?.price}</td>
+                    <td className="border px-2 py-2 text-right">{product?.paid}</td>
+
+                    {/* <td className="border px-2 py-2 text-right">
+                      {product?.price - product?.paid}
+                    </td> */}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          {/* Payment Info */}
+          <section className="bg-green-50 rounded-lg p-4 text-sm">
+            <p>
+              <span className="font-medium">Payment Status:</span>{' '}
+              <span className="text-yellow-600 font-semibold capitalize">{status}</span>
+            </p>
+            <p className="mt-1 break-all">
+              <span className="font-medium">Booking ID:</span> {bookingID}
+            </p>
+            <p className="mt-1 break-all">
+              <span className="font-medium">Invoice No:</span> {bookingData?.invoiceNo}
+            </p>
+          </section>
+        </div>
+      </div>
+    </div>
+  )
+}
