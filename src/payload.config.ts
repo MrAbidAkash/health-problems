@@ -40,22 +40,20 @@ export default buildConfig({
   }),
   sharp,
   endpoints: [createPayment, bkashCallback],
-  plugins: [
-    cloudinaryStorage({
-      // 👇 Your Cloudinary credentials
-      cloudConfig: {
-        cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-        api_key: process.env.CLOUDINARY_API_KEY!,
-        api_secret: process.env.CLOUDINARY_API_SECRET!,
-      },
+  // plugins: [
+  //   cloudinaryStorage({
+  //     // 👇 Your Cloudinary credentials
+  //     cloudConfig: {
+  //       cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
+  //       api_key: process.env.CLOUDINARY_API_KEY!,
+  //       api_secret: process.env.CLOUDINARY_API_SECRET!,
+  //     },
 
-      // 👇 Enable Cloudinary storage for your Media collection
-      collections: {
-        media: true, // or { folder: 'your-folder-name' } to group uploads
-        // BkashPayments: true,
-        // BkashTokens: true,
-        // caches: false,
-      },
-    }),
-  ],
+  //     // 👇 Enable Cloudinary storage for your Media collection
+  //     collections: {
+  //       media: true, // or { folder: 'your-folder-name' } to group uploads
+   
+  //     },
+  //   }),
+  // ],
 })
