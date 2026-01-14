@@ -7,6 +7,7 @@ import LuxurySection from './LuxurySection'
 import ParcelInfo from './ParcelInfo'
 import PricingCards from './PricingCards'
 import ProductCheckout from './ProductCheckout'
+import SectionOne from './SectionOne'
 import SizeChart from './SizeChart'
 import SpecialPricing from './SpecialPricing'
 
@@ -16,8 +17,11 @@ const LandingPage = ({ page }: { page: any }) => {
       <div className="hero-bg">
         <div className="max-w-7xl px-10 w-full flex flex-col justify-center items-center mx-auto">
           <HeroSection page={page} />
-
-          {/* <Footer /> */}
+        </div>
+      </div>
+      <div className="hero-bg">
+        <div className="max-w-7xl px-10 w-full flex flex-col justify-center items-center mx-auto">
+          <SectionOne page={page} />
         </div>
       </div>
 

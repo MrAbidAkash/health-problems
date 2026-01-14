@@ -8,38 +8,38 @@ import dummyBuyers from './DummyBuyer'
 export default function Footer() {
   const minutesOptions = [1, 2, 3, 5, 7, 8, 10, 13, 15, 20, 25, 30, 35, 40, 45, 50, 55, 58, 59]
   const lastIndex = useRef(0)
-  useEffect(() => {
-    console.log('lastIndex', lastIndex)
-    // Show toast immediately
-    const interval = setInterval(() => {
-      let index
-      do {
-        index = Math.floor(Math.random() * dummyBuyers.length)
-      } while (index === lastIndex.current)
+  // useEffect(() => {
+  //   console.log('lastIndex', lastIndex)
+  //   // Show toast immediately
+  //   const interval = setInterval(() => {
+  //     let index
+  //     do {
+  //       index = Math.floor(Math.random() * dummyBuyers.length)
+  //     } while (index === lastIndex.current)
 
-      lastIndex.current = index
-      const buyer = dummyBuyers[index]
+  //     lastIndex.current = index
+  //     const buyer = dummyBuyers[index]
 
-      const minutes = minutesOptions[Math.floor(Math.random() * minutesOptions.length)]
+  //     const minutes = minutesOptions[Math.floor(Math.random() * minutesOptions.length)]
 
-      toast(
-        <div className="flex items-center justify-center gap-2 ">
-          <strong className="text-red-600">
-            {buyer.name} from {buyer.city}
-          </strong>
-          <span>Purchased {minutes} minutes ago</span>
-        </div>,
-        {
-          style: {
-            width: 'max-content',
-            zIndex: '100 !important',
-          },
-        },
-      )
-    }, 6000)
+  //     toast(
+  //       <div className="flex items-center justify-center gap-2 ">
+  //         <strong className="text-red-600">
+  //           {buyer.name} from {buyer.city}
+  //         </strong>
+  //         <span>Purchased {minutes} minutes ago</span>
+  //       </div>,
+  //       {
+  //         style: {
+  //           width: 'max-content',
+  //           zIndex: '100 !important',
+  //         },
+  //       },
+  //     )
+  //   }, 6000)
 
-    return () => clearInterval(interval)
-  }, [])
+  //   return () => clearInterval(interval)
+  // }, [])
 
   return (
     <div className=" bg-black ">
