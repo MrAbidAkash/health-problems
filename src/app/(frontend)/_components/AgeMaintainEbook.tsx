@@ -218,46 +218,7 @@ const AgeMaintainEbook = () => {
       </section>
 
       {/* Bonus section */}
-      <section className="bonus-section">
-        <div className="section-header">
-          <div className="section-icon">🎁</div>
-          <h2>বিশেষ বোনাস</h2>
-        </div>
 
-        <h3 className="section-subtitle">ফ্রি বোনাস পাচ্ছেন</h3>
-        <p className="section-description">
-          মূল ই-বুকের সাথে পাচ্ছেন আরো দুটি প্রিমিয়াম ইবুক গাইড একদম ফ্রি
-        </p>
-
-        <div className="bonus-cards">
-          <div className="bonus-card">
-            <div className="bonus-header">
-              <h4>বোনাস #১</h4>
-              <div className="bonus-tag">মূল্য: ৳৫০০ এখন ফ্রি!</div>
-            </div>
-            <h3>চিনি ছাড়া মিষ্টি জীবন</h3>
-            <p>Processed চিনি ছাড়াই Stevia ও Monk Fruit দিয়ে তৈরি ডেজার্টের বৈজ্ঞানিক গাইড</p>
-          </div>
-
-          <div className="bonus-card">
-            <div className="bonus-header">
-              <h4>বোনাস #২</h4>
-              <div className="bonus-tag">মূল্য: ৳৩০০ এখন ফ্রি!</div>
-            </div>
-            <h3>Healthy Food, Healthy Life</h3>
-            <p>&quot;তুমি যা খাও, তুমি তাই&quot; — খাদ্য, ফিটনেস ও সুস্থতার পূর্ণ নির্দেশিকা</p>
-          </div>
-        </div>
-
-        <div className="total-value">
-          <div className="value-label">
-            মোট ভ্যালু: <span className="value-amount">৳২,৩০০</span>
-          </div>
-          <div className="value-label">
-            আপনি পাচ্ছেন মাত্র: <span className="value-amount special">৳৪৯৯</span>
-          </div>
-        </div>
-      </section>
 
       {/* Testimonials section */}
       <section className="testimonials-section">

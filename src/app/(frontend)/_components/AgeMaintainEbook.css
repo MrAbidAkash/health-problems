@@ -409,29 +409,6 @@
 }
 
 /* Bonus section */
-.bonus-section {
-  background-color: white;
-  border-top: 3px dashed #667eea;
-  border-bottom: 3px dashed #667eea;
-}
-
-.bonus-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 30px;
-  max-width: 1000px;
-  margin: 0 auto 40px;
-}
-
-.bonus-card {
-  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-  border-radius: 15px;
-  padding: 30px;
-  color: white;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
-}
-
 .bonus-card:hover {
   transform: scale(1.03);
 }

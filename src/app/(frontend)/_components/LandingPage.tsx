@@ -7,7 +7,14 @@ import LuxurySection from './LuxurySection'
 import ParcelInfo from './ParcelInfo'
 import PricingCards from './PricingCards'
 import ProductCheckout from './ProductCheckout'
+import SectionEight from './SectionEight'
+import SectionFive from './SectionFive'
+import SectionFour from './SectionFour'
 import SectionOne from './SectionOne'
+import SectionSeven from './SectionSeven'
+import SectionSix from './SectionSix'
+import SectionThree from './SectionThree'
+import SectionTwo from './SectionTwo'
 import SizeChart from './SizeChart'
 import SpecialPricing from './SpecialPricing'
 
@@ -19,42 +26,47 @@ const LandingPage = ({ page }: { page: any }) => {
           <HeroSection page={page} />
         </div>
       </div>
-      <div className="hero-bg">
+      <div className=" bg-[#1a1f3a]">
         <div className="max-w-7xl px-10 w-full flex flex-col justify-center items-center mx-auto">
           <SectionOne page={page} />
         </div>
       </div>
-
-      <div className="max-w-7xl w-full flex flex-col justify-center items-center mx-auto">
-        <SpecialPricing />
-        <PricingCards page={page} />
-        <CTASection />
-      </div>
-
-      <AgeMaintainEbook />
-
-      <div className="bg-[linear-gradient(135deg,#ffffff,#f8f6f3)]">
-        <div className="max-w-7xl w-full flex flex-col justify-center items-center mx-auto">
-          <LuxurySection />
-
-          {/* <Footer /> */}
+      <div className=" bg-gray-700">
+        <div className="max-w-7xl px-10 w-full flex flex-col justify-center items-center mx-auto">
+          <SectionTwo page={page} />
         </div>
       </div>
-      <div className="b-(--light)">
-        <div className="max-w-7xl w-full flex flex-col justify-center items-center mx-auto">
-          <SizeChart />
+      <div className="bg-gradient-to-br from-primary/10 to-accent/10 bg-gray-500">
+        <div className="max-w-7xl px-10 w-full flex flex-col justify-center items-center mx-auto">
+          <SectionThree page={page} />
         </div>
       </div>
-      <div className="bg-(--light)">
-        <div className="max-w-7xl w-full flex flex-col justify-center items-center mx-auto">
-          <CTASection />
+      <div className=" bg-gray-700">
+        <div className="max-w-7xl px-10 w-full flex flex-col justify-center items-center mx-auto">
+          <SectionFour page={page} />
         </div>
       </div>
-      <div className="max-w-7xl w-full flex flex-col justify-center items-center mx-auto bg-white">
-        <Features />
+      <div className=" bg-gray-500">
+        <div className="max-w-7xl px-10 w-full flex flex-col justify-center items-center mx-auto">
+          <SectionFive page={page} />
+        </div>
+      </div>
+      <div className=" bg-gray-800">
+        <div className="max-w-7xl px-10 w-full flex flex-col justify-center items-center mx-auto">
+          <SectionSix page={page} />
+        </div>
+      </div>
+      <div className=" hero-bg">
+        <div className="max-w-7xl px-10 w-full flex flex-col justify-center items-center mx-auto">
+          <SectionSeven page={page} />
+        </div>
+      </div>
+      <div className=" bg-[#1a1f3a]">
+        <div className="max-w-7xl px-10 w-full flex flex-col justify-center items-center mx-auto">
+          <SectionEight page={page} />
+        </div>
+      </div>
 
-        {/* <Footer /> */}
-      </div>
       <div className="bg-(--light)">
         <div className="max-w-7xl w-full flex flex-col justify-center items-center mx-auto">
           <ParcelInfo />
