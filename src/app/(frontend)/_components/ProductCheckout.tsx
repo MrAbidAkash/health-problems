@@ -66,106 +66,106 @@ export default function ProductCheckout({ page }: { page: any }) {
   }
 
   // Example: ViewContent event (call on product page mount)
-  const sendViewContentEvent = async () => {
-    const eventId = `view_${variant.id}_${Date.now()}`
+  // const sendViewContentEvent = async () => {
+  //   const eventId = `view_${variant.id}_${Date.now()}`
 
-    // 1. Send Browser Pixel Event
-    if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'ViewContent', {
-        content_ids: [variant.id],
-        content_name: variant.label,
-        content_type: 'product',
-        currency: 'BDT',
-        value: variant.price,
-        // CRITICAL for deduplication
-        eventID: eventId,
-      })
-    }
+  //   // 1. Send Browser Pixel Event
+  //   if (typeof window !== 'undefined' && window.fbq) {
+  //     window.fbq('track', 'ViewContent', {
+  //       content_ids: [variant.id],
+  //       content_name: variant.label,
+  //       content_type: 'product',
+  //       currency: 'BDT',
+  //       value: variant.price,
+  //       // CRITICAL for deduplication
+  //       eventID: eventId,
+  //     })
+  //   }
 
-    // 2. Your existing server-side CAPI call (keep this)
-    const eventData = {
-      event_name: 'ViewContent',
-      event_id: eventId, // Same ID as above
-      customer_info: {
-        name: customerInfo.name,
-        phone: customerInfo.phone,
-        address: customerInfo.address,
-      },
-      custom_data: {
-        variant,
-        content_name: variant.label,
-        content_ids: [variant.id],
-        content_type: 'product',
-        currency: 'BDT',
-        value: variant.price,
-      },
-    }
-    await fetch('/fb-conversion', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(eventData),
-    })
-  }
+  //   // 2. Your existing server-side CAPI call (keep this)
+  //   const eventData = {
+  //     event_name: 'ViewContent',
+  //     event_id: eventId, // Same ID as above
+  //     customer_info: {
+  //       name: customerInfo.name,
+  //       phone: customerInfo.phone,
+  //       address: customerInfo.address,
+  //     },
+  //     custom_data: {
+  //       variant,
+  //       content_name: variant.label,
+  //       content_ids: [variant.id],
+  //       content_type: 'product',
+  //       currency: 'BDT',
+  //       value: variant.price,
+  //     },
+  //   }
+  //   await fetch('/fb-conversion', {
+  //     method: 'POST',
+  //     headers: { 'Content-Type': 'application/json' },
+  //     body: JSON.stringify(eventData),
+  //   })
+  // }
 
-  useEffect(() => {
-    sendViewContentEvent()
-  }, [])
+  // useEffect(() => {
+  //   sendViewContentEvent()
+  // }, [])
   // Facebook Conversions API Event Function
   // Updated sendInitialCheckOutEvent function in ProductCheckout component
-  const sendInitialCheckOutEvent = async () => {
-    const checkoutId = `initial_checkout_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+  // const sendInitialCheckOutEvent = async () => {
+  //   const checkoutId = `initial_checkout_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
-    // 1. Send Browser Pixel Event
-    if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'InitiateCheckout', {
-        // Note: Event name is one word
-        content_ids: [variant.id || variant.pricingId],
-        content_type: 'product',
-        currency: 'BDT',
-        value: total,
-        num_items: 1, // Consider adding the actual item count
-        eventID: checkoutId, // Same ID as server event
-      })
-    }
+  //   // 1. Send Browser Pixel Event
+  //   if (typeof window !== 'undefined' && window.fbq) {
+  //     window.fbq('track', 'InitiateCheckout', {
+  //       // Note: Event name is one word
+  //       content_ids: [variant.id || variant.pricingId],
+  //       content_type: 'product',
+  //       currency: 'BDT',
+  //       value: total,
+  //       num_items: 1, // Consider adding the actual item count
+  //       eventID: checkoutId, // Same ID as server event
+  //     })
+  //   }
 
-    // Send data in the correct structure for your backend to process
-    const eventData = {
-      event_name: 'Initiate Checkout', // Use snake_case
-      event_id: checkoutId,
-      // Pass required web parameters. Your backend will hash 'phone'.
-      customer_info: {
-        name: customerInfo.name,
-        phone: customerInfo.phone,
-        address: customerInfo.address,
-      },
-      currency: 'BDT',
-      value: total,
-      // Facebook will read standard fields like 'content_ids' from custom_data
-      custom_data: {
-        variant,
-        content_ids: [variant.id || variant.pricingId],
-        content_type: 'product',
-        // You can keep other fields; they may be ignored but won't break the call.
-        product_name: variant.label,
-        size: variant.size || variant.sizes?.[0].size,
-        product_price: variant.price,
-        delivery_charge: DELIVERY_CHARGE,
-      },
-    }
+  //   // Send data in the correct structure for your backend to process
+  //   const eventData = {
+  //     event_name: 'Initiate Checkout', // Use snake_case
+  //     event_id: checkoutId,
+  //     // Pass required web parameters. Your backend will hash 'phone'.
+  //     customer_info: {
+  //       name: customerInfo.name,
+  //       phone: customerInfo.phone,
+  //       address: customerInfo.address,
+  //     },
+  //     currency: 'BDT',
+  //     value: total,
+  //     // Facebook will read standard fields like 'content_ids' from custom_data
+  //     custom_data: {
+  //       variant,
+  //       content_ids: [variant.id || variant.pricingId],
+  //       content_type: 'product',
+  //       // You can keep other fields; they may be ignored but won't break the call.
+  //       product_name: variant.label,
+  //       size: variant.size || variant.sizes?.[0].size,
+  //       product_price: variant.price,
+  //       delivery_charge: DELIVERY_CHARGE,
+  //     },
+  //   }
 
-    try {
-      const response = await fetch('/fb-conversion', {
-        // Ensure endpoint is correct
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(eventData), // Send the new structure
-      })
-      const result = await response.json()
-      console.log('Event sent:', result)
-    } catch (error) {
-      console.error('Failed to send event:', error)
-    }
-  }
+  //   try {
+  //     const response = await fetch('/fb-conversion', {
+  //       // Ensure endpoint is correct
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(eventData), // Send the new structure
+  //     })
+  //     const result = await response.json()
+  //     console.log('Event sent:', result)
+  //   } catch (error) {
+  //     console.error('Failed to send event:', error)
+  //   }
+  // }
 
   const validateField = (field: 'name' | 'address' | 'phone' | 'email', value: string) => {
     switch (field) {
@@ -208,7 +208,7 @@ export default function ProductCheckout({ page }: { page: any }) {
       setErrors({})
 
       // Send Facebook Purchase Event
-      await sendInitialCheckOutEvent()
+      // await sendInitialCheckOutEvent()
 
       //   // Original bKash payment logic
       //   const response = await fetch(`/createBooking`, {

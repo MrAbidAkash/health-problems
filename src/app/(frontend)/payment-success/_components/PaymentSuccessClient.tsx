@@ -42,71 +42,71 @@ export default function PaymentSuccess() {
 
   const hasSentPurchaseEvent = useRef(false)
 
-  const sendPurchaseEvent = async () => {
-    const orderId = `purchase_bkash_${paymentID}_${trxID}`
+  // const sendPurchaseEvent = async () => {
+  //   const orderId = `purchase_bkash_${paymentID}_${trxID}`
 
-    // Determine the final event name based on your logic
+  //   // Determine the final event name based on your logic
 
-    const purchaseType = booked ? 'partial' : purchased ? 'full' : 'standard' // Your logic
+  //   const purchaseType = booked ? 'partial' : purchased ? 'full' : 'standard' // Your logic
 
-    // 1. BROWSER PIXEL EVENT - Use standard name 'Purchase'
-    if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'Purchase', {
-        // <-- Standard event name
-        value: paymentData?.amount,
-        currency: 'BDT',
-        content_ids: [paymentData.id || paymentData.pricingId],
-        content_type: 'product',
-        // Custom parameter to specify the type
-        purchase_type: purchaseType, // <-- Your custom detail here
-        // CRITICAL for deduplication
-        eventID: orderId,
-      })
-    }
+  //   // 1. BROWSER PIXEL EVENT - Use standard name 'Purchase'
+  //   if (typeof window !== 'undefined' && window.fbq) {
+  //     window.fbq('track', 'Purchase', {
+  //       // <-- Standard event name
+  //       value: paymentData?.amount,
+  //       currency: 'BDT',
+  //       content_ids: [paymentData.id || paymentData.pricingId],
+  //       content_type: 'product',
+  //       // Custom parameter to specify the type
+  //       purchase_type: purchaseType, // <-- Your custom detail here
+  //       // CRITICAL for deduplication
+  //       eventID: orderId,
+  //     })
+  //   }
 
-    // const serverEventName = booked ? 'Partial Purchase' : purchased ? 'Full Purchase' : 'Purchase' // Your custom logic for server
+  //   // const serverEventName = booked ? 'Partial Purchase' : purchased ? 'Full Purchase' : 'Purchase' // Your custom logic for server
 
-    // Send data in the correct structure for your backend to process
-    const eventData = {
-      event_name: 'Purchase', // Use snake_case
-      event_id: orderId,
-      // Pass required web parameters. Your backend will hash 'phone'.
-      customer_info: {
-        name: paymentData?.customerInfo.name,
-        phone: paymentData?.customerInfo.phone,
-        address: paymentData?.customerInfo.address,
-      },
-      currency: 'BDT',
-      value: paymentData?.amount,
-      // due:,
-      // Facebook will read standard fields like 'content_ids' from custom_data
-      custom_data: {
-        purchase_type: purchaseType,
-        content_ids: [paymentData.id || paymentData.pricingId],
-        content_type: 'product',
-        // You can keep other fields; they may be ignored but won't break the call.
-        product_name: paymentData?.productInfo.label,
-        size: paymentData.size,
-        productPrice: paymentData?.productInfo.price,
-        // delivery_charge: DELIVERY_CHARGE,
-      },
-    }
+  //   // Send data in the correct structure for your backend to process
+  //   const eventData = {
+  //     event_name: 'Purchase', // Use snake_case
+  //     event_id: orderId,
+  //     // Pass required web parameters. Your backend will hash 'phone'.
+  //     customer_info: {
+  //       name: paymentData?.customerInfo.name,
+  //       phone: paymentData?.customerInfo.phone,
+  //       address: paymentData?.customerInfo.address,
+  //     },
+  //     currency: 'BDT',
+  //     value: paymentData?.amount,
+  //     // due:,
+  //     // Facebook will read standard fields like 'content_ids' from custom_data
+  //     custom_data: {
+  //       purchase_type: purchaseType,
+  //       content_ids: [paymentData.id || paymentData.pricingId],
+  //       content_type: 'product',
+  //       // You can keep other fields; they may be ignored but won't break the call.
+  //       product_name: paymentData?.productInfo.label,
+  //       size: paymentData.size,
+  //       productPrice: paymentData?.productInfo.price,
+  //       // delivery_charge: DELIVERY_CHARGE,
+  //     },
+  //   }
 
-    console.log('eventData', eventData)
+  //   console.log('eventData', eventData)
 
-    try {
-      const response = await fetch('/fb-conversion', {
-        // Ensure endpoint is correct
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(eventData), // Send the new structure
-      })
-      const result = await response.json()
-      console.log('Event sent:', result)
-    } catch (error) {
-      console.error('Failed to send event:', error)
-    }
-  }
+  //   try {
+  //     const response = await fetch('/fb-conversion', {
+  //       // Ensure endpoint is correct
+  //       method: 'POST',
+  //       headers: { 'Content-Type': 'application/json' },
+  //       body: JSON.stringify(eventData), // Send the new structure
+  //     })
+  //     const result = await response.json()
+  //     console.log('Event sent:', result)
+  //   } catch (error) {
+  //     console.error('Failed to send event:', error)
+  //   }
+  // }
 
   useEffect(() => {
     if (!paymentID) return
@@ -115,7 +115,7 @@ export default function PaymentSuccess() {
     if (!paymentData.trxID) return
 
     if ((purchased || booked) && !hasSentPurchaseEvent.current) {
-      sendPurchaseEvent()
+      // sendPurchaseEvent()
       hasSentPurchaseEvent.current = true
     }
   }, [paymentID, paymentData, purchased, booked])
