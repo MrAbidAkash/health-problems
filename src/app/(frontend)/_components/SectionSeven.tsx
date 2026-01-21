@@ -3,6 +3,8 @@
 import React, { useState, useEffect } from 'react'
 
 export default function SectionSeven({ page }: { page: any }) {
+  const bdPrice = page?.pricing?.[0]?.bdPrice
+
   const handleBuyNow = () => {
     const el = document.getElementById('checkout')
     if (el) {
@@ -19,8 +21,8 @@ export default function SectionSeven({ page }: { page: any }) {
           🛍️ এখনই <span className="price-highlight">Vynteex এর কালেকশন</span> সংগ্রহ করুন!
         </h2>
         <p className="text-lg text-gray-300 mb-10 bengali-text">
-          সীমিত সময়ের অফার! মাত্র <span className="text-accent font-bold">৳২৪৯</span> টাকায় পাবেন
-          সম্পূর্ণ যৌ*ন স্বাস্থ্য সমস্যা ও সমাধানের Complete Guideline।
+          সীমিত সময়ের অফার! মাত্র <span className="text-accent font-bold">৳{bdPrice}</span> টাকায়
+          পাবেন সম্পূর্ণ যৌ*ন স্বাস্থ্য সমস্যা ও সমাধানের Complete Guideline।
         </p>
         <button
           onClick={handleBuyNow}

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react'
 import CountDownTimer from './CountDownTimer'
 
 export default function SectionEight({ page }: { page: any }) {
+  const bdPrice = page?.pricing?.[0]?.bdPrice
+
   // console.log(page)
   const handleBuyNow = () => {
     const el = document.getElementById('checkout')
@@ -41,7 +43,7 @@ export default function SectionEight({ page }: { page: any }) {
             </div>
             <div className="text-center">
               <h3 className="text-xl font-semibold mb-4 bengali-text text-accent">Vynteex </h3>
-              <div className="text-4xl font-bold price-highlight mb-2">৳২৪৯</div>
+              <div className="text-4xl font-bold price-highlight mb-2">৳{bdPrice}</div>
               <ul className="text-sm text-green-400 space-y-1">
                 <li className="bengali-text">✅ ৭ টি সম্পূর্ণ ই-বুক</li>
                 <li className="bengali-text">✅ 4K+ রেজুলেশন</li>
@@ -57,7 +59,7 @@ export default function SectionEight({ page }: { page: any }) {
             onClick={handleBuyNow}
             className="w-full bg-gradient-to-r from-primary to-accent text-white py-4 rounded-full text-xl font-bold hover:scale-105 transition-all shadow-lg mb-4"
           >
-            🛒 এখনই কিনুন - মাত্র ৳২৪৯
+            🛒 এখনই কিনুন - মাত্র ৳{bdPrice}
           </button>
 
           <div className="flex items-center justify-center gap-4 text-sm text-gray-400 mt-6">

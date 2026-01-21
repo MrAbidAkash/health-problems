@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import CountDownTimer from './CountDownTimer'
 
 export default function HeroSection({ page }: { page: any }) {
-  // console.log(page)
+  const bdPrice = page?.pricing?.[0]?.bdPrice
 
   const handleBuyNow = () => {
     const el = document.getElementById('checkout')
@@ -50,7 +50,7 @@ export default function HeroSection({ page }: { page: any }) {
 
               <div className="text-center">
                 <div className="text-sm text-accent bengali-text">বর্তমান দাম</div>
-                <div className="text-4xl font-bold price-highlight">৳২৪৯</div>
+                <div className="text-4xl font-bold price-highlight">৳{bdPrice}</div>
               </div>
 
               <div className="bg-red-500 text-white px-4 py-2 rounded-lg text-center">
