@@ -49,16 +49,16 @@ export default function PaymentSuccess() {
     ]
 
     // 1. Facebook Pixel (browser)
-    if (typeof window !== 'undefined' && window.fbq) {
-      window.fbq('track', 'Purchase', {
-        value: paymentData?.amount,
-        currency: 'BDT',
-        content_ids: [paymentData.id || paymentData.pricingId],
-        content_type: 'product',
-        purchase_type: purchaseType,
-        eventID: orderId,
-      })
-    }
+    // if (typeof window !== 'undefined' && window.fbq) {
+    //   window.fbq('track', 'Purchase', {
+    //     value: paymentData?.amount,
+    //     currency: 'BDT',
+    //     content_ids: [paymentData.id || paymentData.pricingId],
+    //     content_type: 'product',
+    //     purchase_type: purchaseType,
+    //     eventID: orderId,
+    //   })
+    // }
 
     // 2. TikTok Pixel (browser)
     if (typeof window !== 'undefined' && (window as any).ttq) {
